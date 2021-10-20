@@ -6,7 +6,7 @@
 # ------------------------------------------------------------------------
 # I take what to "Ding" as a command prompt argument,
 # maximum numbers range from the input
-# Another improvement: It it consist of double digits print just "Double"
+# Another improvement: It it consists of double digits print just "Double"
 
 import sys
 
@@ -27,11 +27,11 @@ def print_line(number):
 
 
 if (len(sys.argv[1]) != 1):
-    print("Number from 0 to 9 as an argument expected! Exiting.")
+    print("Number from 0 to 9 as an argument is expected! Exiting.")
     exit(1)
 numbers_range = int(input("Please enter maximum number from 1 to 100? \n"))
 if ((numbers_range < 1) or (numbers_range > 100)):
-    print("Number form 1 to 100 expexted! Exiting.")
+    print("Number form 1 to 100 is expexted! Exiting.")
     exit(1)
     
 for index_number in range(1, numbers_range+1):

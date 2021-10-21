@@ -29,10 +29,10 @@ def print_line(number):
 if (len(sys.argv[1]) != 1):
     print("Number from 0 to 9 as an argument is expected! Exiting.")
     exit(1)
-numbers_range = int(input("Please enter maximum number from 1 to 100? \n"))
+numbers_range = int(input("Please enter maximum number from 1 to 100: \n"))
 if ((numbers_range < 1) or (numbers_range > 100)):
     print("Number form 1 to 100 is expexted! Exiting.")
     exit(1)
     
 for index_number in range(1, numbers_range+1):
-    print(index_number,":",print_line(index_number))
+    print(index_number, ":", print_line(index_number))

@@ -12,47 +12,36 @@
 #
 # Return true if so, or false otherwise.
 #
-# class Solution:
+#class Solution:
 #    def areNumbersAscending(self, s: str) -> bool:
-#        for char in s:
-#            print(char,"\n")
-# tokens_string = input()
 
-NUMBERS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-#list (range(10))
-#print(NUMBERS)
 
 def extract_numbers_list(s: str):
-    numbers_list = [1]
-    global NUMBERS
-    number_str = ""
-    s +=" "
-    for input_char in s:
-        if (input_char in NUMBERS):
-            number_str += input_char
-            #print("--",number_str)
-        else:            
-            try:
-                number_int = int(number_str)
-                number_str = ""
-                if (number_int <= numbers_list[-1]):
-                    return "FALSE \nNext number: "+str(number_int)+" isn't higher than previous "+ str(numbers_list[-1])+" !" 
-                    #print("FALSE Next number is less than previous!")
-                    exit(1)
-                numbers_list.append(number_int)
-                print(numbers_list)
-            except ValueError:
-                number_str = ""         
-                # I know that except - pass is horrible for debugging and should be avoided in general.
-                # But here it's a key element in the program's logic.
-                # Random characters are passed to int() which should be just silently ignored
-                pass
-    #print("TRUE")  
-    return "TRUE"    
-        
-tokens_string = "rr 2 33 777 r t 88"
+    tokens_list = s.split(" ")
+    numbers_list = [0]
+    
+    for input_token in tokens_list:
+        try:
+            token_int = int(input_token)
+            if (token_int <= numbers_list[-1]):
+                numbers_list.append(token_int)
+                return str(numbers_list[1:])+"\nFALSE" 
+                exit(0)
+            else:
+                numbers_list.append(token_int)
+        except ValueError:
+            # I know that except - pass is horrible for debugging and should be avoided in general.
+            # But here it's a key element in the program's logic.
+            # Random words are passed to int() which should be just silently ignored
+            pass
+    return str(numbers_list[1:])+"\nTRUE"
+            
+#===============================================MAIN===============================================
+
+#tokens_string = "rr 2 33 777 r t 88"
 #tokens_string = "hello world 5 x 5"
-#tokens_string = "sunset is at 7 51 pm overnight lows will be in the low 50 and 60 s"
-#tokens_string = "4 5 11 26"
-#tokens_string = "1 box has 3 blue 4 red 6 green and 12 yellow marbles 13 f"
-print(extract_numbers_list(tokens_string))
+tokens_string = "sunset is at 7 51 pm overnight lows will be in the low 57 and 60 s"
+#tokens_string = "4 5 11 26 1"
+#tokens_string = "1 box has 3 blue 4 red 6 green and 12 yellow marbles 1 f"
+
+print(f" {tokens_string}\n{extract_numbers_list(tokens_string)}")

@@ -3,7 +3,6 @@
 import boto3
 import json
 
-#from boto3.session import Session
 
 def get_available_regions(service):
     available_regions = []
@@ -13,11 +12,11 @@ def get_available_regions(service):
         try:
             sts.get_caller_identity()
             available_regions.append(region)
-        except:# ClientError as e:
-            #if e.response['Error']['Code'] == "InvalidClientTokenId":
+        except Exception as e: #ClientError
+            if e.response['Error']['Code'] == "InvalidClientTokenId":
                 pass
-            #else:
-            #    raise
+            else:
+                raise
     return available_regions
 
 
@@ -37,23 +36,20 @@ def get_ec2_instances(region):
             instance_type = instance["InstanceType"]
 #            public_ip = instance["PublicIpAddress"]
             private_ip = instance["PrivateIpAddress"]
-#            print(f"{instance_id}, {instance_type}, public_ip, {private_ip}")
-            found_instances[instance_id] = [instance_type,private_ip]
+            instance_state = instance["State"]["Name"]
+            instance_tags = instance["Tags"]
+            found_instances[instance_id] = [instance_tags,instance_type,private_ip,instance_state]
     return found_instances
-            
 
-            
-##my_session = Session()
-#ec2_regions = my_session.get_available_regions("ec2")
-#ec2_regions.remove("af-south-1")
-#print(ec2_regions)
-ec2_regions = get_available_regions("ec2")
+
+#ec2_regions = ["ca-central-1"]
+ec2_regions = ['ap-northeast-1', 'ap-northeast-2', 'ap-northeast-3', 'ap-south-1', 'ap-southeast-1', 'ap-southeast-2', 'ca-central-1', 'eu-central-1', 'eu-north-1', 'eu-west-1', 'eu-west-2', 'eu-west-3', 'sa-east-1', 'us-east-1', 'us-east-2', 'us-west-1', 'us-west-2']
+#ec2_regions = get_available_regions("ec2")
 
 for region_to_inspect in ec2_regions:
-#    print(region_to_inspect)
-    #test_region = "af-south-1"
     ec2_in_region_list = get_ec2_instances(region_to_inspect)
-    print(f"EC2 instances in region {region_to_inspect}:\n{json.dumps(ec2_in_region_list, indent=4)}")
+    if len(ec2_in_region_list) > 0:
+        print(f"EC2 instances in region {region_to_inspect}:\n{json.dumps(ec2_in_region_list, indent=4)}")
 
 
 """
